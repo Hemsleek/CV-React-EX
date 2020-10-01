@@ -9,24 +9,48 @@ const App = () => {
   ]) 
   const [ newName, setNewName ] = useState('')
 
+  const handleNewPerson = (e) =>{
+      e.preventDefault()
+      if(persons.some(person=> person.name.toLowerCase()===newName.trim().toLowerCase())){
+        window.alert(`${newName} is already added to phonebook`)
+        
+      }else{
+        setPersons(persons.concat({name:newName}))
+      }
+      setNewName('')
+  }
+
   return (
     <div className="App">
       <h2>Phonebook</h2>
-      <form>
-        <div>
-          name: <input />
+      <form onSubmit={handleNewPerson}>
+        <div className='form-group'>
+          <label htmlFor="name">Name</label>
+          <input
+            id='name' type="text" 
+            placeholder="Add Name" 
+            value={newName} name="name"
+            onChange={e => setNewName(e.target.value)}
+          />
         </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-        {
 
-        persons.map(person => (<p key={person.name}>{person.name}</p>))
-        
-        }
+          <div>
+            <button type="submit">ADD</button>
+          </div>
+      </form>
+      <div className="screen">
+
+        <h2>Numbers</h2>
+        <ol>
+
+          {
+          
+            persons.map(person => (<li key={person.name}>{person.name}</li>))
+          
+          }
       
+        </ol>
+      </div>
     </div>
   )
 }
