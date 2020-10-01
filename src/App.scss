@@ -13,7 +13,7 @@
         font-size:1.1rem ;
       }
       input{
-        margin-left: .5rem;
+        margin-left: .8rem;
         padding: .3rem ;
         font-size: 1rem;
         border: none;
@@ -22,7 +22,11 @@
         &:focus{
           outline: none;
         }
+        
       }
+      input[type ="text"]{
+          margin-left: 2rem;
+        }
   
      
     }

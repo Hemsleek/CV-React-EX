@@ -4,22 +4,29 @@ import './App.scss'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' },
-    {name:'Ada lovelace'}
+    { name: 'Arto Hellas', number: '08108170354' },
+    {name:'Ada lovelace' , number:'07036156182'}
   ]) 
-  const [ newName, setNewName ] = useState('')
+ 
 
   const handleNewPerson = (e) =>{
       e.preventDefault()
-      if(persons.some(person=> person.name.toLowerCase()===newName.trim().toLowerCase())){
-        window.alert(`${newName} is already added to phonebook`)
-        
-      }else{
-        setPersons(persons.concat({name:newName}))
-      }
-      setNewName('')
-  }
+      const name = e.target.name.value
+      const number = e.target.number.value
 
+      const newContact = {name, number}
+     
+
+      // setNewName(newContact)
+
+      if(persons.some(person=> person.name.toLowerCase() === name.trim().toLowerCase())){
+        window.alert(`${name} is already added to phonebook`)
+
+      }else{
+        setPersons(persons.concat(newContact))
+  }
+}
+ 
   return (
     <div className="App">
       <h2>Phonebook</h2>
@@ -29,11 +36,18 @@ const App = () => {
           <input
             id='name' type="text" 
             placeholder="Add Name" 
-            value={newName} name="name"
-            onChange={e => setNewName(e.target.value)}
+            name ="name" 
           />
         </div>
 
+        <div className='form-group'>
+          <label htmlFor="number">Number</label>
+          <input
+            id='number' type="number" 
+            placeholder="Add Number" 
+            name="number"
+          />
+        </div>
           <div>
             <button type="submit">ADD</button>
           </div>
@@ -45,7 +59,7 @@ const App = () => {
 
           {
           
-            persons.map(person => (<li key={person.name}>{person.name}</li>))
+          persons.map(person => (<li key={person.name}>{person.name} - {person.number}</li>))
           
           }
       
