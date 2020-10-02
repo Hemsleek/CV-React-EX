@@ -29,8 +29,8 @@ const App = () => {
   const handleNewPerson = (e) =>{
       e.preventDefault()
       const form = e.target
-      const name =form.name.value
-      const number = form.number.value
+      const name =form.name.value.trim()
+      const number = form.number.value.trim()
 
       const newContact = {name, number}
     
