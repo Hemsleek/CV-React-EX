@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react'
+import axios from 'axios'
 
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -10,19 +11,16 @@ import './App.scss'
 
 const App = () => {
 
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', number: '08108170354' },
-    {name:'Ada Lovelace' , number:'07036156182'},
-    { name: 'Zulema Zahil', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ]) 
+  const [ persons, setPersons ] = useState([]) 
   const [filtered, setFiltered] = useState('')
  
   const personsToDisplay= filtered.trim()? 
                         persons.filter(person => person.name.toLowerCase().indexOf(filtered.trim().toLowerCase()) > -1) :
                         persons
   useEffect(() => {
+    axios('http://localhost:3030/persons')
+      .then(response => setPersons(response.data))
+      .catch(error => alert(`error fetching, ${error}`))
     //localstorage persist
   }, [])
 
