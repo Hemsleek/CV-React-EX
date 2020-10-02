@@ -1,8 +1,36 @@
 .App {
   margin: 0 auto;
-  width:max-content;
-  
+  width:30vw;
+
+
+  input{
+    margin-left: .8rem;
+    padding: .3rem ;
+    font-size: 1rem;
+    border: none;
+    box-shadow: 0px 0px 2px rgba($color: #000000, $alpha: .4);
+    
+    &:focus{
+      outline: none;
+    }
+    
+  }
+  input[type ="text"]{
+      margin-left: 2rem;
+    }
+
+    input[type ="search"]{
+      margin: 0;
+      margin-bottom: 1rem;
+      border:1px solid transparent;
+        
+
+      &:focus{
+        border-color: rgb(46, 46, 194);
+      }
+    }
   form{
+    margin-top:1rem;
 
     .form-group{
       margin-bottom: 1rem;
@@ -12,23 +40,7 @@
       label{
         font-size:1.1rem ;
       }
-      input{
-        margin-left: .8rem;
-        padding: .3rem ;
-        font-size: 1rem;
-        border: none;
-        box-shadow: 0px 0px 2px rgba($color: #000000, $alpha: .4);
-        
-        &:focus{
-          outline: none;
-        }
-        
-      }
-      input[type ="text"]{
-          margin-left: 2rem;
-        }
-  
-     
+      
     }
     
     button{
