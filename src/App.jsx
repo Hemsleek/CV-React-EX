@@ -1,8 +1,15 @@
 import React, { useState,useEffect } from 'react'
 
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
+import Search from './components/Search'
+
+
 import './App.scss'
 
+
 const App = () => {
+
   const [ persons, setPersons ] = useState([
     { name: 'Arto Hellas', number: '08108170354' },
     {name:'Ada Lovelace' , number:'07036156182'},
@@ -13,7 +20,8 @@ const App = () => {
   const [filtered, setFiltered] = useState('')
  
   const personsToDisplay= filtered.trim()? 
-                        persons.filter(person => person.name.toLowerCase().indexOf(filtered.trim().toLowerCase()) > -1) : persons
+                        persons.filter(person => person.name.toLowerCase().indexOf(filtered.trim().toLowerCase()) > -1) :
+                        persons
   useEffect(() => {
     //localstorage persist
   }, [])
@@ -36,51 +44,21 @@ const App = () => {
         }
 
 }
+
+const handleSetFiltered = (event) => setFiltered(event)
  
   return (
     <div className="App">
+
       <h2>Phonebook</h2>
-      
-      <input 
-        type="search" value={filtered} placeholder="Search"
-        onChange={e => setFiltered(e.target.value)}
-      />
+      <Search  filtered = {filtered} handleSetFiltered={handleSetFiltered}/>
 
-      <form onSubmit={handleNewPerson}>
-        <div className='form-group'>
-          <label htmlFor="name">Name</label>
-          <input
-            id='name' type="text" 
-            placeholder="Add Name" 
-            name ="name" 
-          />
-        </div>
+      <h3>Add a new PhoneNumber</h3>
+      <PersonForm handleNewPerson = {handleNewPerson}/>
 
-        <div className='form-group'>
-          <label htmlFor="number">Number</label>
-          <input
-            id='number' type="number" 
-            placeholder="Add Number" 
-            name="number" required
-          />
-        </div>
-          <div>
-            <button type="submit">ADD</button>
-          </div>
-      </form>
-      <div className="screen">
-
-        <h2>Numbers</h2>
-        <ol>
-
-          {
-          
-          personsToDisplay.map(person => (<li key={person.name}>{person.name} - {person.number}</li>))
-          
-          }
-      
-        </ol>
-      </div>
+      <h3>Numbers</h3>
+      <Persons personsToDisplay = {personsToDisplay}/>
+     
     </div>
   )
 }
