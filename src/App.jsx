@@ -25,7 +25,11 @@ const OneCountryFiltered = ({country}) =>(
       <img src={country.flag} alt={`${country.name}-flag`}/>
     </div> 
   )
-  console.log(process.env.REACT_APP_API_KEY)    
+  const key = process.env.REACT_APP_API_KEY   
+
+  const weather = axios.get(`http://api.weatherstack.com/current?access_key=${key}&query=new york`).then(response => response.data).catch(error => error) 
+  
+  console.log(weather)
 
 const App = () => {
   const [countries, setCountries] = useState([])
