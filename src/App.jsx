@@ -3,9 +3,21 @@ import axios from 'axios'
 
 import './App.scss';
 
-const OneCountryFiltered = ({country}) =>(
+const key = process.env.REACT_APP_API_KEY
 
-    <div className="one-country-result">
+const OneCountryFiltered = ({country}) =>{
+
+  const [weather, setWeather] = useState(null)
+
+  useEffect(() => {
+   
+    axios.get(`http://api.weatherstack.com/current?access_key=${key}&query=${country.capital}`).then(response => response.data).then(currentWeather => setWeather(currentWeather.current)).catch(error => error) 
+   
+  }, [country])
+  
+ 
+   return( <div className="one-country-result">
+     
       <h2>{country.name}</h2>
 
       <p>
@@ -22,19 +34,34 @@ const OneCountryFiltered = ({country}) =>(
           country.languages.map(language => (<li key={language.name}>{language.name}</li>))
         }
       </ul>
+
       <img src={country.flag} alt={`${country.name}-flag`}/>
+      {weather && 
+      <div className="weather-display">
+        <h2>{country.capital}</h2>
+        <p>
+          <strong>Temperature</strong> : {`${weather.temperature} Celcius`}
+        </p>
+        <img src={weather.weather_icons[0]} alt="weather-icon"/>
+        <p>
+          <strong>Wind</strong> : {`${weather.wind_speed} mph direction ${weather.wind_dir}`}
+        </p>
+      </div>
+      }
+
     </div> 
   )
-  const key = process.env.REACT_APP_API_KEY   
-
-  const weather = axios.get(`http://api.weatherstack.com/current?access_key=${key}&query=new york`).then(response => response.data).catch(error => error) 
+      }
   
-  console.log(weather)
+
+ 
 
 const App = () => {
+
   const [countries, setCountries] = useState([])
   const [filtered, setFiltered] = useState('')
   const [display, setDisplay] = useState(null)
+
 
   useEffect(() => {
     
@@ -58,7 +85,7 @@ const App = () => {
         
           {
             (countriesToShow.length===1) && 
-            <OneCountryFiltered country={countriesToShow[0]} /> 
+            <OneCountryFiltered country={countriesToShow[0]}/> 
           }
 
           {
@@ -82,7 +109,7 @@ const App = () => {
 
         <div className="display">
         
-          {display && <OneCountryFiltered country={display}/> }
+          {display && <OneCountryFiltered country={display} /> }
         
         </div>
     </div>
