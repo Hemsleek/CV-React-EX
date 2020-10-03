@@ -30,14 +30,17 @@ const App = () => {
       const name =form.name.value.trim()
       const number = form.number.value.trim()
 
-      const newContact = {name, number}
+      const id = persons[persons.length - 1].id + 1
+      
+      const newContact = {name, number, id}
     
 
       if(persons.some(person=> person.name.toLowerCase() === name.trim().toLowerCase())){
         window.alert(`${name} is already added to phonebook`)
 
       }else{
-        setPersons(persons.concat(newContact))
+        axios.post('http://localhost:3030/persons',newContact)
+        .then(response => setPersons(persons.concat(response.data))).catch(error => error) 
         form.reset()
         }
 
