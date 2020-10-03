@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import axios from 'axios'
+import phoneService from './phoneService'
 
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -18,20 +18,20 @@ const App = () => {
                         persons.filter(person => person.name.toLowerCase().indexOf(filtered.trim().toLowerCase()) > -1) :
                         persons
   useEffect(() => {
-    axios('http://localhost:3030/persons')
-      .then(response => setPersons(response.data))
+   
+      phoneService.get().then(response => setPersons(response.data))
       .catch(error => alert(`error fetching, ${error}`))
     //localstorage persist
   }, [])
 
-  const handleNewPerson = (e) =>{
+  const handleNewPerson = (e) =>{ 
       e.preventDefault()
       const form = e.target
       const name =form.name.value.trim()
       const number = form.number.value.trim()
 
       const id = persons[persons.length - 1].id + 1
-      
+
       const newContact = {name, number, id}
     
 
@@ -39,14 +39,14 @@ const App = () => {
         window.alert(`${name} is already added to phonebook`)
 
       }else{
-        axios.post('http://localhost:3030/persons',newContact)
-        .then(response => setPersons(persons.concat(response.data))).catch(error => error) 
+        phoneService.add(newContact)
+        .then(response => setPersons(persons.concat(response.data))).catch(error => error)  
         form.reset()
         }
 
 }
 
-const handleSetFiltered = (event) => setFiltered(event)
+  const handleSetFiltered = (event) => setFiltered(event)
  
   return (
     <div className="App">
