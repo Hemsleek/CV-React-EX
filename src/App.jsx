@@ -25,12 +25,12 @@ const OneCountryFiltered = ({country}) =>(
       <img src={country.flag} alt={`${country.name}-flag`}/>
     </div> 
   )
-      
+  console.log(process.env.REACT_APP_API_KEY)    
 
 const App = () => {
   const [countries, setCountries] = useState([])
   const [filtered, setFiltered] = useState('')
-  const [display, setDisplay] = useState({})
+  const [display, setDisplay] = useState(null)
 
   useEffect(() => {
     
@@ -78,7 +78,7 @@ const App = () => {
 
         <div className="display">
         
-          {display && <OneCountryFiltered country={display}/>}
+          {display && <OneCountryFiltered country={display}/> }
         
         </div>
     </div>
