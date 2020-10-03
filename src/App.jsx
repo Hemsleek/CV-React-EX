@@ -30,6 +30,7 @@ const OneCountryFiltered = ({country}) =>(
 const App = () => {
   const [countries, setCountries] = useState([])
   const [filtered, setFiltered] = useState('')
+  const [display, setDisplay] = useState({})
 
   useEffect(() => {
     
@@ -58,7 +59,14 @@ const App = () => {
 
           {
             (countriesToShow.length>1 && countriesToShow.length<=10) &&  
-            countriesToShow.map(country => (<div className="country" key={country.name}>{country.name}</div>))
+            countriesToShow.map(country => 
+              (<div className="country" key={country.name}>
+                
+                <span>{country.name}</span>
+                <button onClick ={e => setDisplay(country)}>OPEN</button>
+
+              </div>)
+            )
           }
 
           { countriesToShow.length > 10  &&  <center>Too many matches, specify an addition filter...</center> }
@@ -66,7 +74,7 @@ const App = () => {
       </div>
       </div>
 
-      <div className="display"></div>
+        <div className="display">{display.name}</div>
     </div>
   );
 }
