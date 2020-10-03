@@ -52,10 +52,10 @@ const App = () => {
       />
       <div className="screen">
         
-            {
-              (countriesToShow.length===1) && 
-              <OneCountryFiltered country={countriesToShow[0]} /> 
-            }
+          {
+            (countriesToShow.length===1) && 
+            <OneCountryFiltered country={countriesToShow[0]} /> 
+          }
 
           {
             (countriesToShow.length>1 && countriesToShow.length<=10) &&  
@@ -69,12 +69,18 @@ const App = () => {
             )
           }
 
-          { countriesToShow.length > 10  &&  <center>Too many matches, specify an addition filter...</center> }
+          { 
+            countriesToShow.length > 10  &&  <center>Too many matches, specify an addition filter...</center> 
+          }
         
       </div>
       </div>
 
-        <div className="display">{display.name}</div>
+        <div className="display">
+        
+          {display && <OneCountryFiltered country={display}/>}
+        
+        </div>
     </div>
   );
 }
