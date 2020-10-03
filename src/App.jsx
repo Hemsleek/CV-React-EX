@@ -19,7 +19,7 @@ const App = () => {
                         persons
   useEffect(() => {
    
-      phoneService.get().then(response => setPersons(response.data))
+       phoneService.get().then(response => setPersons(response.data))
       .catch(error => alert(`error fetching, ${error}`))
     //localstorage persist
   }, [])
@@ -47,7 +47,19 @@ const App = () => {
 }
 
   const handleSetFiltered = (event) => setFiltered(event)
- 
+
+  const handleDelete = ({name , id},) => {
+      
+      if(window.confirm(`Delete ${name} ?`))
+
+        phoneService.del(id)
+          .then(response => response)
+          .catch(error => error)
+
+        phoneService.get().then(response => setPersons(response.data))
+          .catch(error => alert(`error fetching, ${error}`))
+  }
+
   return (
     <div className="App">
 
@@ -58,7 +70,7 @@ const App = () => {
       <PersonForm handleNewPerson = {handleNewPerson}/>
 
       <h3>Numbers</h3>
-      <Persons personsToDisplay = {personsToDisplay}/>
+      <Persons personsToDisplay = {personsToDisplay} handleDelete = {handleDelete}/>
      
     </div>
   )
