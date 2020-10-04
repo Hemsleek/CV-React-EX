@@ -83,7 +83,10 @@ const App = () => {
 
         phoneService.del(id)
           .then(response => response)
-          .catch(error => error)
+          .catch(error => {
+            setMessage(`information of ${name} has already been removed from server`)
+            setTimeout(() => setMessage(null) , 4000)
+          })
 
         reloadNumbers()
  
