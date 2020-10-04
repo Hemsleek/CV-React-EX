@@ -44,7 +44,7 @@ const App = () => {
         const person =persons[i]
         if(person.name.toLowerCase() === name.trim().toLowerCase()){
           if(window.confirm(`${person.name} is already added to phonebook, replace the old number with a new one?`)){
-            
+
             phoneService.update(person.id, newContact).then(response =>response).catch(error => error)
 
             reloadNumbers()
@@ -80,7 +80,9 @@ const App = () => {
 
       <h2>Phonebook</h2>
       <Search filtered = {filtered} handleSetFiltered={handleSetFiltered}/>
-
+       <div className="indicator">
+          
+        </div> 
       <h3>Add a new PhoneNumber</h3>
       <PersonForm handleNewPerson = {handleNewPerson}/>
 
