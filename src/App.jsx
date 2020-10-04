@@ -14,6 +14,11 @@ const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [filtered, setFiltered] = useState('')
  
+
+  const reloadNumbers = () =>
+        phoneService.get().then(response => setPersons(response.data))
+          .catch(error => alert(`error fetching, ${error}`))
+
   const personsToDisplay= filtered.trim()? 
                         persons.filter(person => person.name.toLowerCase().indexOf(filtered.trim().toLowerCase()) > -1) :
                         persons
@@ -34,17 +39,27 @@ const App = () => {
 
       const newContact = {name, number, id}
     
+    //use for loop
+      for( let i=0; i<persons.length; i++){
+        const person =persons[i]
+        if(person.name.toLowerCase() === name.trim().toLowerCase()){
+          if(window.confirm(`${person.name} is already added to phonebook, replace the old number with a new one?`)){
+            
+            phoneService.update(person.id, newContact).then(response =>response).catch(error => error)
 
-      if(persons.some(person=> person.name.toLowerCase() === name.trim().toLowerCase())){
-        window.alert(`${name} is already added to phonebook`)
-
-      }else{
-        phoneService.add(newContact)
-        .then(response => setPersons(persons.concat(response.data))).catch(error => error)  
-        form.reset()
+            reloadNumbers()
+            form.reset()
+          }
+          return null
         }
+      }
 
-}
+      phoneService.add(newContact)
+      .then(response => setPersons(persons.concat(response.data))).catch(error => error)  
+      form.reset()
+  }
+     
+
 
   const handleSetFiltered = (event) => setFiltered(event)
 
@@ -56,15 +71,15 @@ const App = () => {
           .then(response => response)
           .catch(error => error)
 
-        phoneService.get().then(response => setPersons(response.data))
-          .catch(error => alert(`error fetching, ${error}`))
+        reloadNumbers()
+ 
   }
 
   return (
     <div className="App">
 
       <h2>Phonebook</h2>
-      <Search  filtered = {filtered} handleSetFiltered={handleSetFiltered}/>
+      <Search filtered = {filtered} handleSetFiltered={handleSetFiltered}/>
 
       <h3>Add a new PhoneNumber</h3>
       <PersonForm handleNewPerson = {handleNewPerson}/>
