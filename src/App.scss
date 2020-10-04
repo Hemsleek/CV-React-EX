@@ -74,10 +74,11 @@
     }
   }
   .indicator{
-    width: 50vw;
-    padding: .8rem .4rem;
+    width: fit-content;
+    padding: .2rem .4rem;
     font-size: 1.2rem;
     border: 2px solid green;
+    transition: all 1s ease-in-out;
     
   }
 }

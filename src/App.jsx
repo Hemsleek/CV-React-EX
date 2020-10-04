@@ -13,6 +13,7 @@ const App = () => {
 
   const [ persons, setPersons ] = useState([]) 
   const [filtered, setFiltered] = useState('')
+  const [message, setMessage] = useState(null)
  
 
   const reloadNumbers = () =>
@@ -28,6 +29,8 @@ const App = () => {
       .catch(error => alert(`error fetching, ${error}`))
     //localstorage persist
   }, [])
+  
+
 
   const handleNewPerson = (e) =>{ 
       e.preventDefault()
@@ -45,7 +48,12 @@ const App = () => {
         if(person.name.toLowerCase() === name.trim().toLowerCase()){
           if(window.confirm(`${person.name} is already added to phonebook, replace the old number with a new one?`)){
 
-            phoneService.update(person.id, newContact).then(response =>response).catch(error => error)
+            phoneService.update(person.id, newContact)
+            .then(({data}) =>{
+              setMessage(`${data.name} updated successfully`)
+              setTimeout(() => setMessage(null) , 4000)
+            })
+            .catch(error => error)
 
             reloadNumbers()
             form.reset()
@@ -55,7 +63,13 @@ const App = () => {
       }
 
       phoneService.add(newContact)
-      .then(response => setPersons(persons.concat(response.data))).catch(error => error)  
+      .then(({data}) => {
+        setPersons(persons.concat(data))
+        setMessage(`Added ${data.name}`)
+        setTimeout(() => setMessage(null) , 4000)
+      })
+      .catch(error => error) 
+
       form.reset()
   }
      
@@ -80,9 +94,11 @@ const App = () => {
 
       <h2>Phonebook</h2>
       <Search filtered = {filtered} handleSetFiltered={handleSetFiltered}/>
-       <div className="indicator">
-          
-        </div> 
+
+        {
+          message && <div className="indicator">{message}</div>
+        }
+
       <h3>Add a new PhoneNumber</h3>
       <PersonForm handleNewPerson = {handleNewPerson}/>
 
