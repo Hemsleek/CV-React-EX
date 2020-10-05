@@ -30,7 +30,7 @@ const App = () => {
     //localstorage persist
   }, [])
   
-
+  const delay= () => setTimeout(() => setMessage(null) , 1500)
 
   const handleNewPerson = (e) =>{ 
       e.preventDefault()
@@ -41,7 +41,9 @@ const App = () => {
       const id = persons[persons.length - 1].id + 1
 
       const newContact = {name, number, id}
-    
+      
+
+     let color = 'green'
     //use for loop
       for( let i=0; i<persons.length; i++){
         const person =persons[i]
@@ -50,8 +52,8 @@ const App = () => {
 
             phoneService.update(person.id, newContact)
             .then(({data}) =>{
-              setMessage(`${data.name} updated successfully`)
-              setTimeout(() => setMessage(null) , 4000)
+              setMessage({name:`${data.name} updated successfully`, color})
+              delay()
             })
             .catch(error => error)
 
@@ -65,8 +67,8 @@ const App = () => {
       phoneService.add(newContact)
       .then(({data}) => {
         setPersons(persons.concat(data))
-        setMessage(`Added ${data.name}`)
-        setTimeout(() => setMessage(null) , 4000)
+        setMessage({name:`Added ${data.name}`, color})
+        delay()
       })
       .catch(error => error) 
 
@@ -79,17 +81,20 @@ const App = () => {
 
   const handleDelete = ({name , id},) => {
       
-      if(window.confirm(`Delete ${name} ?`))
-
+      if(window.confirm(`Delete ${name} ?`)){
+        let color = 'red'
         phoneService.del(id)
-          .then(response => response)
+          .then(response => {
+            setMessage({name:`Deleted ${name}`, color})
+            delay()
+          })
           .catch(error => {
-            setMessage(`information of ${name} has already been removed from server`)
-            setTimeout(() => setMessage(null) , 4000)
+            setMessage({name:`information of ${name} has already been removed from server`, color})
+            delay()
           })
 
         reloadNumbers()
- 
+      }
   }
 
   return (
@@ -99,7 +104,7 @@ const App = () => {
       <Search filtered = {filtered} handleSetFiltered={handleSetFiltered}/>
 
         {
-          message && <div className="indicator">{message}</div>
+          message && <div className="indicator" style={{color:message.color, border:`2px solid ${message.color}`}}>{message.name}</div>
         }
 
       <h3>Add a new PhoneNumber</h3>
