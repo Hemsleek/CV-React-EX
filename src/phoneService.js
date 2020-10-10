@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const basePoint = 'http://localhost:3030/persons/'
+const basePoint = 'http://localhost:3001/api/persons/'
 
 
 export default {

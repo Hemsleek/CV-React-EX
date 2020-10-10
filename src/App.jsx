@@ -108,7 +108,7 @@ const App = () => {
         }
 
       <h3>Add a new PhoneNumber</h3>
-      <PersonForm handleNewPerson = {handleNewPerson}/>
+      <PersonForm handleNewPerson = {handleNewPerson} />
 
       <h3>Numbers</h3>
       <Persons personsToDisplay = {personsToDisplay} handleDelete = {handleDelete}/>
