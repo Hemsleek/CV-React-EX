@@ -17,6 +17,6 @@ export default {
     return axios.delete(basePoint+id)
   },
   update(id,data){
-    return axios.put(basePoint+id,data)
+    return axios.patch(basePoint+id,data)
   }
 }
