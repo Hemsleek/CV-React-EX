@@ -75,8 +75,6 @@ const App = () => {
       form.reset()
   }
      
-
-
   const handleSetFiltered = (event) => setFiltered(event)
 
   const handleDelete = ({name , id},) => {
@@ -86,14 +84,17 @@ const App = () => {
         phoneService.del(id)
           .then(response => {
             setMessage({name:`Deleted ${name}`, color})
+            console.log({response})
+            setPersons(response.data)
             delay()
           })
-          .catch(error => {
+          .catch((error) => {
             setMessage({name:`information of ${name} has already been removed from server`, color})
+            setPersons(error.response.data)
             delay()
           })
 
-        reloadNumbers()
+        
       }
   }
 
